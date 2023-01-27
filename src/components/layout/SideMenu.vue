@@ -10,7 +10,7 @@
       </section>
 
       <section class="side-menu__logo">
-        <img src="../../assets/logo.png" alt="" />
+        <h2>LOGO</h2>
       </section>
 
       <div class="side-menu__body">
@@ -32,9 +32,7 @@
             <li>Log in</li>
           </ul>
         </section>
-      </div>
 
-      <div class="side-menu__footer">
         <button @click="showSideMenu = !showSideMenu">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
@@ -44,6 +42,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import "@/styles/global.scss";
+
 .container {
   width: 50%;
   height: 100%;
@@ -53,9 +53,10 @@
   padding: 0 65px;
   background-color: #151418;
   transition: 1s;
+  overflow-y: auto;
 
   .side-menu {
-    height: 90%;
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -84,7 +85,7 @@
     }
 
     &__body {
-      height: 350px;
+      height: 400px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -121,18 +122,14 @@
         }
       }
     }
+  }
 
-    &__footer {
-      display: flex;
-      justify-content: center;
+  @include break-up(map-get($breakpoints, "md")) {
+    width: 20%;
+  }
 
-      i {
-        color: #fff;
-        padding: 5px 7px;
-        border: 1px solid #fff;
-        border-radius: 50%;
-      }
-    }
+  @include break-up(map-get($breakpoints, "lg")) {
+    width: 15%;
   }
 }
 
@@ -156,6 +153,6 @@ import User from "@/components/layout/User.vue";
   },
 })
 export default class SideMenu extends Vue {
-  private showSideMenu = false;
+  public showSideMenu = false;
 }
 </script>
