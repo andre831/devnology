@@ -33,9 +33,11 @@
           </ul>
         </section>
 
-        <button @click="showSideMenu = !showSideMenu">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
+        <section class="side-menu__body--back">
+          <button @click="showSideMenu = !showSideMenu">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </section>
       </div>
     </div>
   </div>
@@ -51,7 +53,7 @@
   top: 0;
   left: 0;
   padding: 0 65px;
-  background-color: #151418;
+  background-color: $sooty;
   transition: 1s;
   overflow-y: auto;
 
@@ -71,6 +73,12 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+
+        button {
+          color: $white;
+          font-size: 22px;
+        }
       }
     }
 
@@ -114,10 +122,23 @@
             height: 50px;
             display: flex;
             align-items: center;
-            color: #fff;
+            color: $white;
             justify-content: space-between;
-            border-bottom: 1px solid #fff;
+            border-bottom: 1px solid $white;
             text-transform: uppercase;
+          }
+        }
+      }
+
+      &--back {
+        display: flex;
+        justify-content: center;
+
+        button {
+          padding: 10px 30px;
+
+          i {
+            color: $white;
           }
         }
       }
