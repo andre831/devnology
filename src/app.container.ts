@@ -1,6 +1,8 @@
 import { container } from "inversify-props";
-import "reflect-metadata";
+
+import IValidateService from "./services/ValidateService/IValidateService";
+import ValidateService from "./services/ValidateService/ValidateService";
 
 export default function buildDependencyContainer(): void {
-  // container.addTransient<IEffectsService>(EffectsService);
+  container.addTransient<IValidateService>(ValidateService);
 }

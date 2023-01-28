@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import "reflect-metadata";
 
 import SideMenu from "@/components/layout/SideMenu.vue";
 
