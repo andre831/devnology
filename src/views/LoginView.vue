@@ -25,6 +25,9 @@
       <div class="login__footer--forget-pass">
         <router-link to="/forget">Forget your password?</router-link>
       </div>
+      <div class="login__footer--home">
+        <router-link to="/">Go to home</router-link>
+      </div>
     </section>
   </div>
 </template>
@@ -88,11 +91,17 @@
   &__footer {
     margin-top: 20px;
 
-    &--forget-pass {
+    &--forget-pass,
+    &--home {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
       a {
         color: $obscure-orchid;
         font-weight: 600;
         text-decoration: none;
+        margin-bottom: 10px;
         transition: 0.5s;
 
         &:hover {
