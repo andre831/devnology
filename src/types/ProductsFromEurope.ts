@@ -1,6 +1,6 @@
-export interface EuropeProduct {
+export interface EuropeanProduct {
   description: string;
-  details: EuropeProductDetails;
+  details: EuropeanProductDetails;
   discountValue: string;
   gallery: string[];
   hasDiscount: boolean;
@@ -9,7 +9,7 @@ export interface EuropeProduct {
   price: string;
 }
 
-export interface EuropeProductDetails {
+export interface EuropeanProductDetails {
   adjective: string;
   material: string;
 }
