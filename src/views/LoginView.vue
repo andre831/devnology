@@ -6,18 +6,25 @@
     <section class="login__body">
       <div class="login__body--fields">
         <label for="email-field">E-mail:</label>
-        <input type="email" id="email-field" placeholder="Type your e-mail" />
+        <input
+          v-model="emailField"
+          type="email"
+          id="email-field"
+          placeholder="Type your e-mail"
+        />
 
         <label for="password-field">Password:</label>
         <input
+          v-model="passwordField"
           type="password"
           id="password-field"
+          maxlength="15"
           placeholder="Type your password"
         />
       </div>
 
       <div class="login__body--buttons">
-        <button type="submit">LOGIN</button>
+        <button type="submit" :disabled="enableLogin">LOGIN</button>
         <button @click="$router.push('/signup')">SIGN UP</button>
       </div>
     </section>
@@ -115,7 +122,35 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Inject } from "inversify-props";
+
+import IValidateService from "../services/ValidateService/IValidateService";
 
 @Component
-export default class LoginView extends Vue {}
+export default class LoginView extends Vue {
+  @Inject() _validateService!: IValidateService;
+
+  public emailField = "";
+  public passwordField = "";
+
+  public enableLogin = true;
+
+  beforeUpdate() {
+    this.validField();
+  }
+
+  private validField() {
+    const verifyEmail = this._validateService.checkEmailField(
+      this.emailField,
+      "#email-field"
+    );
+
+    const verifyPasswd = this._validateService.checkPasswordField(
+      this.passwordField,
+      "#password-field"
+    );
+
+    if (verifyEmail && verifyPasswd) this.enableLogin = false;
+  }
+}
 </script>
