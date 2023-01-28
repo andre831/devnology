@@ -5,6 +5,16 @@
     </section>
     <section class="sign-up__body">
       <div class="sign-up__body--fields">
+        <label for="name-field">Name:</label>
+        <input type="name" id="name-field" placeholder="Type your name" />
+
+        <label for="last-name-field">Last name:</label>
+        <input
+          type="last-name"
+          id="last-name-field"
+          placeholder="Type your last name"
+        />
+
         <label for="email-field">E-mail:</label>
         <input type="email" id="email-field" placeholder="Type your e-mail" />
 
@@ -67,7 +77,6 @@
       width: 100%;
       min-width: 256px;
       max-width: 512px;
-      height: 234px;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -91,6 +100,10 @@
         margin-bottom: 10px;
         padding: 0 5px;
       }
+    }
+
+    &--fields {
+      height: 390px;
     }
 
     &--buttons {
