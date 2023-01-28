@@ -3,4 +3,10 @@ button {
     margin: 0;
     border: none;
     background: transparent;
+    transition: 0.5s;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 75%;
+    }
 }

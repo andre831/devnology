@@ -49,13 +49,14 @@
 .container {
   width: 50%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding: 0 65px;
   background-color: $sooty;
   transition: 1s;
   overflow-y: auto;
+  z-index: 1000;
 
   .side-menu {
     height: 600px;
