@@ -1,9 +1,7 @@
 <template>
-  <div class="user-component">
-    <button @click="$router.push('/user')">
-      <i class="fa-solid fa-user"></i>
-    </button>
-  </div>
+  <button @click="$router.push('/user')">
+    <i class="fa-solid fa-user"></i>
+  </button>
 </template>
 
 <style lang="scss" scoped></style>

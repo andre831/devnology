@@ -1,9 +1,7 @@
 <template>
-  <div class="cart-component">
-    <button @click="$router.push('/checkout')">
-      <i class="fa-solid fa-cart-shopping"></i>
-    </button>
-  </div>
+  <button @click="$router.push('/checkout')">
+    <i class="fa-solid fa-cart-shopping"></i>
+  </button>
 </template>
 
 <style lang="scss" scoped></style>

@@ -1,9 +1,7 @@
 <template>
-  <div class="favorites-component">
-    <button>
-      <i class="fa-solid fa-star"></i>
-    </button>
-  </div>
+  <button>
+    <i class="fa-solid fa-star"></i>
+  </button>
 </template>
 
 <style lang="scss" scoped></style>
