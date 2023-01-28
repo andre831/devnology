@@ -1,21 +1,25 @@
 import { Vue } from "vue-property-decorator";
 import VueRouter, { RouteConfig } from "vue-router";
-import CheckoutView from "@/views/CheckoutView.vue";
-import UserView from "@/views/UserView.vue";
 
 import LoginView from "@/views/LoginView.vue";
+import SignUpView from "@/views/SignUpView.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "home",
+    name: "Home",
   },
   {
     path: "/login",
     name: "login",
     component: LoginView,
+  },
+  {
+    path: "/signUp",
+    name: "SignUp",
+    component: SignUpView,
   },
 ];
 
