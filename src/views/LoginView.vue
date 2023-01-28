@@ -18,7 +18,7 @@
 
       <div class="login__body--buttons">
         <button type="submit">LOGIN</button>
-        <button>SIGN UP</button>
+        <button @click="$router.push('/signup')">SIGN UP</button>
       </div>
     </section>
     <section class="login__footer">
