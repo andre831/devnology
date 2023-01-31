@@ -5,7 +5,6 @@ export interface BrazilianProduct {
   id: string;
   imagem: string;
   material: string;
-  name: string;
   nome: string;
   preco: string;
 }
