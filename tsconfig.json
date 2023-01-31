@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es5",
+    "module": "commonjs",
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata":  true, 
+    "emitDecoratorMetadata": true,
     "removeComments": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,10 +24,12 @@
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
     },
     "lib": [
-      "esnext",
+      "es2017", 
+      "es7", 
+      "es6",
       "dom",
       "dom.iterable",
       "scripthost"
