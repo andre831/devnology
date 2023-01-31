@@ -34,7 +34,7 @@
       </div>
 
       <div class="sign-up__body--buttons">
-        <button type="submit">CONFIRM</button>
+        <button class="btn__primary" type="submit">CONFIRM</button>
       </div>
     </section>
     <section class="sign-up__footer">
@@ -49,7 +49,8 @@
 </template>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
+@import "@/styles/buttons.scss";
+@import "@/styles/colors.scss";
 
 .sign-up {
   width: 80%;
@@ -80,20 +81,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-
-      button {
-        height: 50px;
-        font-weight: 600;
-
-        &:nth-child(1) {
-          color: $white;
-          background: $sooty;
-        }
-        &:nth-child(2) {
-          color: $sooty;
-          border: 2px solid $sooty;
-        }
-      }
 
       input {
         height: 68px;
@@ -128,7 +115,7 @@
         transition: 0.5s;
 
         &:hover {
-          color: #141414;
+          color: $sooty;
         }
       }
     }

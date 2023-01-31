@@ -24,8 +24,12 @@
       </div>
 
       <div class="login__body--buttons">
-        <button type="submit" :disabled="enableLogin">LOGIN</button>
-        <button @click="$router.push('/signup')">SIGN UP</button>
+        <button class="btn__primary" type="submit" :disabled="enableLogin">
+          LOGIN
+        </button>
+        <button class="btn__secondary" @click="$router.push('/signup')">
+          SIGN UP
+        </button>
       </div>
     </section>
     <section class="login__footer">
@@ -72,20 +76,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-
-      button {
-        height: 50px;
-        font-weight: 600;
-
-        &:nth-child(1) {
-          color: $white;
-          background: $sooty;
-        }
-        &:nth-child(2) {
-          color: $sooty;
-          border: 2px solid $sooty;
-        }
-      }
 
       input {
         height: 68px;
