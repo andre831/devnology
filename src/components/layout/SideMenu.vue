@@ -163,9 +163,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import Cart from "@/components/layout/Cart.vue";
-import Favorites from "@/components/layout/Favorites.vue";
-import User from "@/components/layout/User.vue";
+import Cart from "@/components/Cart.vue";
+import Favorites from "@/components/Favorites.vue";
+import User from "@/components/User.vue";
 
 @Component({
   components: {
