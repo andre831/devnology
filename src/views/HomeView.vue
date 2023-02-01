@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="itemBR in productBR" :key="itemBR.id">
+    <div v-for="itemBR in productBR.slice(0, 5)" :key="itemBR.id">
       <ProductCard :product="itemBR" />
     </div>
   </div>

@@ -68,16 +68,19 @@ import { BrazilianProduct } from "../types/ProductsFromBrazil";
 
 @Component
 export default class ProductCard extends Vue {
-  @Prop() public product: BrazilianProduct = {
-    categoria: "",
-    departamento: "",
-    descricao: "",
-    id: "",
-    imagem: "",
-    material: "",
-    nome: "",
-    preco: "",
-  };
+  @Prop({
+    default: {
+      categoria: "",
+      departamento: "",
+      descricao: "",
+      id: "",
+      imagem: "",
+      material: "",
+      nome: "",
+      preco: "",
+    },
+  })
+  readonly product!: BrazilianProduct;
 
   mounted() {
     console.log("asdadasd ");
