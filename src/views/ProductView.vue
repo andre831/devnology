@@ -34,10 +34,17 @@
 @import "@/styles/buttons.scss";
 
 .product-view {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
   .product-details {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 
     img {
       min-width: 304px;
@@ -45,7 +52,6 @@
     }
 
     &__body {
-      height: 250px;
       display: flex;
       justify-content: space-around;
       flex-direction: column;
@@ -71,13 +77,19 @@
     }
 
     &__footer {
+      width: 100%;
+      position: fixed;
+      bottom: 20px;
+      display: flex;
+      justify-content: center;
+
       &--buttons {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
         button {
-          width: 100%;
-          position: fixed;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          width: 80%;
         }
       }
     }
