@@ -1,5 +1,5 @@
 <template>
-  <button @click="$router.push('/checkout')">
+  <button @click="$router.push('/cart')">
     <i class="fa-solid fa-cart-shopping"></i>
   </button>
 </template>
