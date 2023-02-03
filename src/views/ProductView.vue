@@ -1,5 +1,10 @@
 <template>
   <div class="product-view">
+    <div class="product-title">
+      <p>Product</p>
+      <p>{{ product.nome }}</p>
+    </div>
+
     <div class="product-details">
       <div class="details">
         <img :src="product.imagem" alt="" />
@@ -39,6 +44,25 @@
   flex-direction: column;
   align-items: center;
 
+  .product-title {
+    width: 100%;
+    margin-bottom: 22px;
+    border-bottom: 1px solid $sooty;
+
+    p {
+      &:first-child {
+        font-size: 12px;
+        color: $grey;
+        text-transform: capitalize;
+      }
+      &:last-child {
+        font-size: 18px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+    }
+  }
+
   .product-details {
     display: flex;
     flex-wrap: wrap;
@@ -46,12 +70,12 @@
     justify-content: space-between;
     align-items: center;
 
-    img {
-      min-width: 304px;
-      width: 100%;
-    }
-
     .details {
+      img {
+        min-width: 304px;
+        width: 100%;
+      }
+
       &__body {
         display: flex;
         justify-content: space-around;
@@ -69,7 +93,7 @@
         &--name > p:first-child,
         &--price > p:first-child {
           font-size: 12px;
-          color: #808080;
+          color: $grey;
         }
 
         &--name > p {
@@ -97,7 +121,6 @@
   }
 
   @include break-up(map-get($breakpoints, "lg")) {
-    flex-direction: row;
     height: 630px;
 
     .product-details {
@@ -109,8 +132,11 @@
         display: flex;
 
         &__body {
-          margin-bottom: 0;
-          margin-left: 5px;
+          margin: {
+            top: 0;
+            bottom: 0;
+            left: 5px;
+          }
 
           &--buttons {
             button {
@@ -137,12 +163,20 @@ import { EuropeanProduct } from "../types/ProductsFromEurope";
 export default class ProductView extends Vue {
   @Inject() _productsService!: IProductsService;
 
-  public product = {} as BrazilianProduct;
+  public product = {} as BrazilianProduct | EuropeanProduct;
 
   created() {
-    this._productsService
-      .getOnlyProductFromBrazil(this.$route.params.id)
-      .then((res) => (this.product = res));
+    console.log(this.$route.params.origin);
+
+    if (this.$route.params.origin == "brazilian") {
+      this._productsService
+        .getOnlyProductFromBrazil(this.$route.params.id)
+        .then((res) => (this.product = res));
+    } else if (this.$route.params.origin == "european") {
+      this._productsService
+        .getOnlyProductFromEurope(this.$route.params.id)
+        .then((res) => (this.product = res));
+    }
   }
 }
 </script>
