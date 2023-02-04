@@ -1,13 +1,13 @@
 <template>
   <div class="cart-product">
-    <img :src="item.imagem" alt="" />
+    <img :src="prod.imagem" alt="" />
     <div class="cart-product__body">
       <div class="cart-product__body--infos">
-        <p>adadsadassadda</p>
-        <p>category</p>
+        <p>{{ item.nome }}</p>
+        <p>{{ item.categoria }},</p>
       </div>
       <div class="cart-product__body--price">
-        <p>$400</p>
+        <p>${{ item.preco }}</p>
 
         <div class="amount">
           <button>-</button>
@@ -27,8 +27,7 @@
 @import "@/styles/global.scss";
 
 .cart-product {
-  max-width: 300px;
-  width: 100%;
+  width: 220px;
   display: flex;
   flex-direction: column;
 
@@ -105,12 +104,13 @@
     }
   }
 
-  @include break-up(map-get($breakpoints, "md")) {
-    max-width: 100%;
+  @include break-up(map-get($breakpoints, "lg")) {
+    width: inherit;
     flex-direction: row;
 
     &__body {
       width: 100%;
+      max-width: 765px;
       margin: {
         top: 0;
         left: 5px;
@@ -140,12 +140,14 @@ import IProductsService from "../../services/ProductsService/IProductsService";
 export default class CartProduct extends Vue {
   @Inject() _productsService!: IProductsService;
 
-  public item = {} as BrazilianProduct;
+  @Prop() public item!: BrazilianProduct[];
+
+  public prod = {} as BrazilianProduct;
 
   mounted() {
     this._productsService
       .getOnlyProductFromBrazil("1")
-      .then((res) => (this.item = res));
+      .then((res) => (this.prod = res));
   }
 }
 </script>

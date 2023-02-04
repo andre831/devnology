@@ -1,5 +1,5 @@
 <template>
-  <div :class="'container ' + (!showSideMenu ? '' : 'hiddenMenu')">
+  <div :class="'container ' + (showSideMenu ? '' : 'hiddenMenu')">
     <div class="side-menu">
       <section class="side-menu__header">
         <div class="side-menu__header--paths">
