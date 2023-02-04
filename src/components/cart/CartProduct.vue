@@ -1,12 +1,10 @@
 <template>
   <div class="cart-product">
+    <img :src="item.imagem" alt="" />
     <div class="cart-product__body">
       <div class="cart-product__body--infos">
-        <img :src="item.imagem" alt="" />
-        <div class="text">
-          <p>adadsadassadda</p>
-          <p>category</p>
-        </div>
+        <p>adadsadassadda</p>
+        <p>category</p>
       </div>
       <div class="cart-product__body--price">
         <p>$400</p>
@@ -29,38 +27,38 @@
 @import "@/styles/global.scss";
 
 .cart-product {
+  max-width: 300px;
   width: 100%;
-  background: $whiteout;
+  display: flex;
+  flex-direction: column;
+
+  img {
+    width: 100%;
+    max-width: 300px;
+  }
 
   &__body {
     padding: 5px;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-around;
+    background: $whiteout;
 
     &--infos {
       width: 100%;
-      display: flex;
       align-items: center;
       justify-content: space-around;
 
-      img {
-        width: 125px;
-      }
-
-      .text {
-        width: 100%;
-        display: flex;
-        margin-left: 10px;
-        flex-direction: column;
-        justify-content: end;
-
-        p {
-          &:last-child {
-            font-size: 12px;
-            color: $grey;
-          }
+      p {
+        &:first-child {
+          font-size: 18px;
+          font-weight: 600;
+        }
+        &:last-child {
+          font-size: 12px;
+          color: $grey;
         }
       }
     }
@@ -103,6 +101,29 @@
 
       i {
         color: #ff0000;
+      }
+    }
+  }
+
+  @include break-up(map-get($breakpoints, "md")) {
+    max-width: 100%;
+    flex-direction: row;
+
+    &__body {
+      width: 100%;
+      margin: {
+        top: 0;
+        left: 5px;
+      }
+
+      &--price {
+        flex-direction: column;
+      }
+
+      &--delete {
+        button > i {
+          font-size: 20px;
+        }
       }
     }
   }
