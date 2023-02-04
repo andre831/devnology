@@ -14,7 +14,7 @@ import { Component, Vue } from "vue-property-decorator";
 import "reflect-metadata";
 
 import SideMenu from "@/components/layout/SideMenu.vue";
-import Container from "./components/layout/Container.vue";
+import Container from "@/components/layout/Container.vue";
 
 @Component({
   components: {
