@@ -1,23 +1,11 @@
 <template>
   <div :class="'container ' + (showSideMenu ? '' : 'hiddenMenu')">
     <div class="side-menu">
-      <section class="side-menu__header">
-        <div class="side-menu__header--paths">
-          <User />
-          <Cart />
-          <Favorites />
-        </div>
-      </section>
-
       <section class="side-menu__logo">
         <h2>LOGO</h2>
       </section>
 
       <div class="side-menu__body">
-        <section class="side-menu__body--search">
-          <input type="text" />
-        </section>
-
         <section class="side-menu__body--pages">
           <ul>
             <li>Home</li>
@@ -163,17 +151,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import Cart from "@/components/Cart.vue";
-import Favorites from "@/components/Favorites.vue";
-import User from "@/components/User.vue";
-
-@Component({
-  components: {
-    Cart,
-    Favorites,
-    User,
-  },
-})
+@Component
 export default class SideMenu extends Vue {
   public showSideMenu = false;
 }
