@@ -1,19 +1,22 @@
 <template>
   <div class="product-card">
-    <img :src="product.imagem" alt="" />
+    <img :src="product.images[0]" alt="Item Image" />
     <div class="product-card__body">
       <div class="product-card__body--class">
-        <small>{{ product.departamento }}</small>
+        <small>{{ product.details.material }}</small>
         <button>
           <i class="fa-solid fa-star"></i>
         </button>
       </div>
       <div class="product-card__body--title">
-        <p>{{ product.nome }}</p>
+        <p>{{ product.name }}</p>
       </div>
       <div class="product-card__body--buttons">
         <button class="btn__primary">See Details</button>
-        <button class="btn__secondary">${{ product.preco }}</button>
+        <button class="btn__secondary">
+          ${{ product.price }}
+          {{ discount != 0 ? " - " + discount + "%" : null }}
+        </button>
       </div>
     </div>
   </div>
@@ -64,26 +67,37 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { BrazilianProduct } from "../types/ProductsFromBrazil";
+
+import { Product } from "../types/Product";
 
 @Component
 export default class ProductCard extends Vue {
   @Prop({
     default: {
-      categoria: "",
-      departamento: "",
-      descricao: "",
       id: "",
-      imagem: "",
-      material: "",
-      nome: "",
-      preco: "",
+      name: "",
+      price: 0,
+      description: "",
+      details: {
+        adjective: "",
+        material: "",
+      },
+      department: "",
+      images: [],
+      hasDiscount: false,
+      discountValue: 0,
     },
   })
-  readonly product!: BrazilianProduct;
+  readonly product!: Product;
 
-  mounted() {
-    console.log("asdadasd ");
+  private discount = 0;
+
+  created() {
+    this.discount = this.transformToPercentage();
+  }
+
+  transformToPercentage() {
+    return Number((this.product?.discountValue * 100).toFixed(2));
   }
 }
 </script>

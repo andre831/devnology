@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SideMenu />
+    <NavBar />
     <Container>
       <template v-slot:body>
         <router-view />
@@ -13,12 +13,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import "reflect-metadata";
 
-import SideMenu from "@/components/layout/SideMenu.vue";
+import NavBar from "@/components/layout/NavBar.vue";
 import Container from "@/components/layout/Container.vue";
 
 @Component({
   components: {
-    SideMenu,
+    NavBar,
     Container,
   },
 })

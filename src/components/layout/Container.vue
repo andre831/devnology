@@ -8,6 +8,7 @@
 main {
   width: 80%;
   margin: auto;
+  margin-top: 12vh;
   display: flex;
   justify-content: center;
 }

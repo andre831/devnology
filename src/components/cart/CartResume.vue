@@ -9,6 +9,34 @@
           <p>item name</p>
           <p>$400</p>
         </div>
+        <div class="item">
+          <p>item name</p>
+          <p>$400</p>
+        </div>
+        <div class="item">
+          <p>item name</p>
+          <p>$400</p>
+        </div>
+        <div class="item">
+          <p>item name</p>
+          <p>$400</p>
+        </div>
+        <div class="item">
+          <p>item name</p>
+          <p>$400</p>
+        </div>
+        <div class="item">
+          <p>item name</p>
+          <p>$400</p>
+        </div>
+        <div class="item">
+          <p>item name</p>
+          <p>$400</p>
+        </div>
+        <div class="item">
+          <p>item name</p>
+          <p>$400</p>
+        </div>
       </div>
     </div>
     <div class="cart-resume__footer">
