@@ -4,6 +4,10 @@
       <div class="shop-cart__body--products">
         <div class="product" v-for="p in product" :key="p.id">
           <CartProduct :item="p" />
+
+          <button @click="removeFromCart(p)">remove</button>
+          <br />
+          <button @click="addToCart(p)">add</button>
         </div>
       </div>
 
@@ -89,6 +93,7 @@ import { EuropeanProduct } from "../types/ProductsFromEurope";
 import CartProduct from "@/components/cart/CartProduct.vue";
 import CartResume from "@/components/cart/CartResume.vue";
 import CartDelivery from "@/components/cart/CartDelivery.vue";
+import { Product } from "../types/Product";
 
 @Component({
   components: {

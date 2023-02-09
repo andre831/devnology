@@ -56,6 +56,7 @@ import { EuropeanProduct } from "../types/ProductsFromEurope";
 import { BrazilianProduct } from "../types/ProductsFromBrazil";
 
 import IProductsService from "../services/ProductsService/IProductsService";
+import axios from "axios";
 
 @Component({
   components: {
@@ -84,6 +85,10 @@ export default class HomeView extends Vue {
 
   private updateFilteredItems(filteredItems: any[]) {
     this.filteredItems = filteredItems;
+  }
+
+  updated() {
+    console.log(this.$store.getters.cart);
   }
 
   async joinAllProducts() {

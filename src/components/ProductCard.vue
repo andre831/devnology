@@ -13,7 +13,7 @@
       </div>
       <div class="product-card__body--buttons">
         <button class="btn__primary">See Details</button>
-        <button class="btn__secondary">
+        <button class="btn__secondary" @click="addToCart(product)">
           ${{ product.price }}
           {{ discount != 0 ? " - " + discount + "%" : null }}
         </button>
@@ -98,6 +98,13 @@ export default class ProductCard extends Vue {
 
   transformToPercentage() {
     return Number((this.product?.discountValue * 100).toFixed(2));
+  }
+
+  addToCart(item: Product) {
+    this.$store.commit("ADD_T0_CART", item);
+  }
+  removeFromCart(item: Product) {
+    this.$store.commit("REMOVE_FROM_CART", item);
   }
 }
 </script>
