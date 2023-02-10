@@ -12,7 +12,9 @@
         <CartDelivery />
 
         <div class="total">
-          <button class="btn__primary">Buy ${{ sumAllItems() }}</button>
+          <button class="btn__primary" @click="$router.push('/checkout')">
+            Buy ${{ sumAllItems() }}
+          </button>
         </div>
       </div>
     </div>
