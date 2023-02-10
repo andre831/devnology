@@ -2,12 +2,8 @@
   <div class="shop-cart">
     <div class="shop-cart__body">
       <div class="shop-cart__body--products">
-        <div class="product" v-for="p in product" :key="p.id">
-          <CartProduct :item="p" />
-
-          <button @click="removeFromCart(p)">remove</button>
-          <br />
-          <button @click="addToCart(p)">add</button>
+        <div class="product" v-for="item in cart" :key="item.product.id">
+          <CartProduct :item="item.product" :selected="item.selected" />
         </div>
       </div>
 
@@ -16,7 +12,7 @@
         <CartDelivery />
 
         <div class="total">
-          <button class="btn__primary">Buy $5400</button>
+          <button class="btn__primary">Buy ${{ sumAllItems() }}</button>
         </div>
       </div>
     </div>
@@ -64,6 +60,7 @@
 
       &--products {
         height: 800px;
+        width: 100%;
         flex-direction: column;
 
         .product {
@@ -87,9 +84,6 @@ import { Inject } from "inversify-props";
 
 import IProductsService from "../services/ProductsService/IProductsService";
 
-import { BrazilianProduct } from "../types/ProductsFromBrazil";
-import { EuropeanProduct } from "../types/ProductsFromEurope";
-
 import CartProduct from "@/components/cart/CartProduct.vue";
 import CartResume from "@/components/cart/CartResume.vue";
 import CartDelivery from "@/components/cart/CartDelivery.vue";
@@ -105,64 +99,26 @@ import { Product } from "../types/Product";
 export default class ShopCartView extends Vue {
   @Inject() _productsService!: IProductsService;
 
-  public product: BrazilianProduct[] = [
-    {
-      categoria: "metal, pedra, lenha",
-      departamento: "",
-      descricao:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text",
-      id: "",
-      imagem: "",
-      material: "",
-      nome: "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it ha",
-      preco: "200",
-    },
-    {
-      categoria: "metal, pedra, lenha",
-      departamento: "",
-      descricao:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text",
-      id: "",
-      imagem: "",
-      material: "",
-      nome: "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it ha",
-      preco: "200",
-    },
-    {
-      categoria: "metal, pedra, lenha",
-      departamento: "",
-      descricao:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text",
-      id: "",
-      imagem: "",
-      material: "",
-      nome: "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it ha",
-      preco: "200",
-    },
-    {
-      categoria: "metal, pedra, lenha",
-      departamento: "",
-      descricao:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text",
-      id: "",
-      imagem: "",
-      material: "",
-      nome: "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it ha",
-      preco: "200",
-    },
-    {
-      categoria: "metal, pedra, lenha",
-      departamento: "",
-      descricao:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text",
-      id: "",
-      imagem: "",
-      material: "",
-      nome: "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it ha",
-      preco: "200",
-    },
-  ];
+  public cart: { product: Product; selected: boolean }[] = [];
+  private totalItemsValue = 0;
+  private totalDelivery = 0;
+  private totalValue = 0;
 
-  // BrazilianProduct | EuropeanProduct;
+  private total = 0;
+
+  mounted() {
+    this.cart = this.$store.getters.cart;
+    this.totalItemsValue = this.$store.getters.totalItems;
+    this.totalDelivery = this.$store.getters.delivery;
+    this.totalValue = this.$store.getters.totalValue;
+
+    console.log(this.$store.getters.totalItems);
+  }
+
+  sumAllItems() {
+    this.$store.commit("setTotalValues", this.total);
+
+    return this.total;
+  }
 }
 </script>

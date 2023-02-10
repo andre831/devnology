@@ -13,9 +13,20 @@
       </div>
       <div class="product-card__body--buttons">
         <button class="btn__primary">See Details</button>
-        <button class="btn__secondary" @click="addToCart(product)">
+        <button
+          class="btn__secondary"
+          v-if="!verifyCart(product)"
+          @click="addToCart(product)"
+        >
           ${{ product.price }}
-          {{ discount != 0 ? " - " + discount + "%" : null }}
+          {{ product.hasDiscount ? " - " + discount + "%" : null }}
+        </button>
+        <button
+          class="btn__secondary"
+          v-if="verifyCart(product)"
+          @click="removeFromCart(product)"
+        >
+          Remove from cart
         </button>
       </div>
     </div>
@@ -90,10 +101,22 @@ export default class ProductCard extends Vue {
   })
   readonly product!: Product;
 
-  private discount = 0;
+  @Prop({ default: false }) readonly selected!: boolean;
+
+  public discount = 0;
 
   created() {
     this.discount = this.transformToPercentage();
+  }
+
+  mounted() {
+    console.log(this.verifyCart(this.product));
+  }
+
+  verifyCart(item: Product) {
+    return this.$store.getters.cart.some((element: { product: Product }) => {
+      return element.product.id === item.id;
+    });
   }
 
   transformToPercentage() {
@@ -101,10 +124,11 @@ export default class ProductCard extends Vue {
   }
 
   addToCart(item: Product) {
-    this.$store.commit("ADD_T0_CART", item);
+    this.$store.commit("addToCart", item);
   }
+
   removeFromCart(item: Product) {
-    this.$store.commit("REMOVE_FROM_CART", item);
+    this.$store.commit("removeFromCart", item);
   }
 }
 </script>

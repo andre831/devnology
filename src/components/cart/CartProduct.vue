@@ -1,22 +1,22 @@
 <template>
   <div class="cart-product">
-    <img :src="prod.imagem" alt="" />
+    <img :src="item.images[0]" alt="" />
     <div class="cart-product__body">
       <div class="cart-product__body--infos">
-        <p>{{ item.nome }}</p>
-        <p>{{ item.categoria }},</p>
+        <p>{{ item.name }}</p>
+        <p>{{ item.details.material }},</p>
       </div>
       <div class="cart-product__body--price">
-        <p>${{ item.preco }}</p>
+        <p>${{ item.price }}</p>
 
         <div class="amount">
-          <button>-</button>
-          <p>1</p>
-          <button>+</button>
+          <button @click="subItem" :disabled="counter <= 1">-</button>
+          <p>{{ counter }}</p>
+          <button @click="sumItem">+</button>
         </div>
       </div>
       <div class="cart-product__body--delete">
-        <button>
+        <button @click="removeFromCart(item)">
           <i class="fa-solid fa-trash-can"></i>
         </button>
       </div>
@@ -105,12 +105,13 @@
   }
 
   @include break-up(map-get($breakpoints, "lg")) {
-    width: inherit;
+    width: 100%;
+    max-width: 900px;
     flex-direction: row;
 
     &__body {
       width: 100%;
-      max-width: 765px;
+      min-width: 350px;
       margin: {
         top: 0;
         left: 5px;
@@ -133,21 +134,37 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Inject } from "inversify-props";
 
-import { BrazilianProduct } from "../../types/ProductsFromBrazil";
+import { Product } from "../../types/Product";
+
 import IProductsService from "../../services/ProductsService/IProductsService";
 
 @Component
 export default class CartProduct extends Vue {
   @Inject() _productsService!: IProductsService;
 
-  @Prop() public item!: BrazilianProduct[];
+  @Prop() public item!: Product;
+  @Prop({ default: 1 }) public amount!: number;
 
-  public prod = {} as BrazilianProduct;
+  public counter = 1;
 
   mounted() {
-    this._productsService
-      .getOnlyProductFromBrazil("1")
-      .then((res) => (this.prod = res));
+    this.counter = this.amount;
+  }
+
+  sumItem() {
+    this.counter++;
+
+    this.$store.commit("sumItem", this.item);
+  }
+
+  subItem() {
+    this.counter--;
+
+    this.$store.commit("subItem", this.item);
+  }
+
+  removeFromCart(item: Product) {
+    this.$store.commit("removeFromCart", item);
   }
 }
 </script>

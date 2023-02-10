@@ -4,45 +4,21 @@
       <h2>Resume</h2>
     </div>
     <div class="cart-resume__body">
-      <div class="cart-resume__body--items">
+      <div
+        class="cart-resume__body--items"
+        v-for="item in resumeItems"
+        :key="item.product.id"
+      >
         <div class="item">
-          <p>item name</p>
-          <p>$400</p>
-        </div>
-        <div class="item">
-          <p>item name</p>
-          <p>$400</p>
-        </div>
-        <div class="item">
-          <p>item name</p>
-          <p>$400</p>
-        </div>
-        <div class="item">
-          <p>item name</p>
-          <p>$400</p>
-        </div>
-        <div class="item">
-          <p>item name</p>
-          <p>$400</p>
-        </div>
-        <div class="item">
-          <p>item name</p>
-          <p>$400</p>
-        </div>
-        <div class="item">
-          <p>item name</p>
-          <p>$400</p>
-        </div>
-        <div class="item">
-          <p>item name</p>
-          <p>$400</p>
+          <p>{{ item.product.name }}</p>
+          <p>${{ item.product.price }}</p>
         </div>
       </div>
     </div>
     <div class="cart-resume__footer">
       <div class="cart-resume__footer--resume">
         <h3>Resume items</h3>
-        <p>$5000</p>
+        <p>${{ sumTotal() }}</p>
       </div>
     </div>
   </div>
@@ -104,7 +80,38 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Product } from "../../types/Product";
 
 @Component
-export default class ResumeCart extends Vue {}
+export default class ResumeCart extends Vue {
+  public resumeItems: { product: Product; amount: number }[] = [];
+
+  mounted() {
+    this.resumeItems = this.$store.getters.cart;
+
+    this.sumTotal();
+  }
+
+  sumTotal() {
+    let total = 0;
+
+    this.resumeItems.forEach((item) => {
+      let totalItemsValue = item.product.price;
+
+      if (item.product.hasDiscount) {
+        const discount = item.product.discountValue * 100;
+
+        totalItemsValue = totalItemsValue - (totalItemsValue * discount) / 100;
+      }
+
+      total += totalItemsValue * item.amount;
+
+      total = Math.round(total);
+    });
+
+    this.$store.commit("setTotalItems", total);
+
+    return total;
+  }
+}
 </script>
