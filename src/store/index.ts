@@ -1,48 +1,25 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { Product } from "../types/Product";
+import createPersistedState from "vuex-persistedstate";
+import { createDirectStore } from "direct-vuex";
+
+import cart from "./modules/cart";
+import resumes from "./modules/resumes";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    cart: [] as Product[],
-    user: {
-      isAuthenticated: false,
-      idToken: "",
-    },
+const { store } = createDirectStore({
+  modules: {
+    cart,
+    resumes,
   },
-
-  getters: {
-    cart: (state) => state.cart,
-  },
-
-  actions: {
-    addToCart({ commit }, payload) {
-      commit("ADD_T0_CART", payload);
-    },
-
-    removeFromCart({ commit }, item) {
-      commit("REMOVE_FROM_CART", item);
-    },
-  },
-
-  mutations: {
-    ADD_T0_CART(state, payload) {
-      if (!payload) return;
-
-      state.cart.push(payload);
-
-      console.log(state.cart);
-    },
-
-    REMOVE_FROM_CART(state, item) {
-      if (!item.id) return;
-
-      state.cart.splice(item, 1);
-
-      console.log(state.cart);
-    },
-  },
-  modules: {},
+  plugins: [createPersistedState()],
 });
+
+export default store;
+export type AppStore = typeof store;
+declare module "vuex" {
+  interface Store<S> {
+    direct: AppStore;
+  }
+}
