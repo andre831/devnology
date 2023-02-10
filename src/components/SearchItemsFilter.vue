@@ -2,14 +2,6 @@
   <div class="search-items">
     <div class="filters">
       <input type="text" v-model="queryByName" @input="onQueryChanged" />
-      <!-- <label>
-        <input
-          type="checkbox"
-          v-model="filterByCheckbox"
-          @change="onFilterByCheckboxChanged"
-        />
-        Filter by Checkbox
-      </label> -->
 
       <select v-model="sortByDiscount" @change="onSortByDiscountChanged">
         <option value="">Sort by</option>
@@ -54,21 +46,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { Product } from "../types/Product";
 
 @Component
 export default class SearchItemsFilter extends Vue {
-  @Prop({ default: [] }) readonly items: any[] = [];
+  @Prop({ default: [] }) readonly items: Product[] = [];
 
   queryByName = "";
   sortByDiscount = "";
   sortBy = "";
 
-  get filteredItems(): any {
+  get filteredItems(): Product[] {
     let filtered = this.items;
-
-    // if (this.filterByCheckbox) {
-    //   filtered = filtered.filter((item) => item.hasDiscount);
-    // }
 
     if (this.queryByName) {
       filtered = filtered.filter((item) =>
@@ -95,15 +84,15 @@ export default class SearchItemsFilter extends Vue {
     this.$emit("update:filteredItems", this.filteredItems);
   }
 
-  private onSortByDiscountChanged() {
+  onSortByDiscountChanged() {
     this.updateFilteredItems();
   }
 
-  private onSortByChanged() {
+  onSortByChanged() {
     this.updateFilteredItems();
   }
 
-  private onQueryChanged() {
+  onQueryChanged() {
     this.updateFilteredItems();
   }
 }
