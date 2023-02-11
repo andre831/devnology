@@ -1,16 +1,23 @@
 <template>
   <div class="search-items">
-    <div class="filters">
-      <input type="text" v-model="queryByName" @input="onQueryChanged" />
+    <div class="search-items__text">
+      <input
+        type="text"
+        v-model="queryByName"
+        @input="onQueryChanged"
+        placeholder="Filter our products using name"
+      />
+    </div>
 
+    <div class="search-items__sort-by">
       <select v-model="sortByDiscount" @change="onSortByDiscountChanged">
-        <option value="">Sort by</option>
+        <option value="" disabled>Discount</option>
         <option value="withDiscount">With discount</option>
         <option value="missDiscount">Miss discount</option>
       </select>
 
       <select v-model="sortBy" @change="onSortByChanged">
-        <option value="">Sort by</option>
+        <option value="" disabled>Price</option>
         <option value="biggestPrice">Biggest Price</option>
         <option value="lowestPrice">Lowest Price</option>
       </select>
@@ -19,26 +26,36 @@
 </template>
 
 <style lang="scss" scoped>
-.search-items {
-  .filters {
-    display: flex;
-    align-items: center;
+@import "@/styles/global.scss";
 
-    input[type="text"] {
-      flex: 1;
-      margin-right: 10px;
+.search-items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  label {
+    margin-right: 10px;
+  }
+
+  &__text,
+  &__sort-by {
+    width: 100%;
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+
+    input,
+    select {
+      width: 100%;
       padding: 5px;
       border: 1px solid #ccc;
-    }
-
-    label {
-      margin-right: 10px;
     }
 
     select {
-      width: 150px;
-      padding: 5px;
-      border: 1px solid #ccc;
+      width: 49%;
     }
   }
 }
@@ -50,7 +67,7 @@ import { Product } from "../types/Product";
 
 @Component
 export default class SearchItemsFilter extends Vue {
-  @Prop({ default: [] }) readonly items: Product[] = [];
+  @Prop({ default: [] }) readonly items!: Product[];
 
   queryByName = "";
   sortByDiscount = "";
