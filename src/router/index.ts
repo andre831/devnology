@@ -1,4 +1,5 @@
 import { Vue } from "vue-property-decorator";
+import store from "../store";
 import VueRouter, { RouteConfig } from "vue-router";
 
 import HomeView from "@/views/HomeView.vue";
@@ -10,7 +11,7 @@ import CheckoutView from "@/views/CheckoutView.vue";
 
 Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
+const unprotectedRoutes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Home",
@@ -36,6 +37,9 @@ const routes: Array<RouteConfig> = [
     name: "Shop Cart",
     component: ShopCartView,
   },
+];
+
+const protectedRoutes: Array<RouteConfig> = [
   {
     path: "/checkout",
     name: "Checkout",
@@ -44,7 +48,18 @@ const routes: Array<RouteConfig> = [
 ];
 
 const router = new VueRouter({
-  routes,
+  routes: [...unprotectedRoutes, ...protectedRoutes],
+});
+
+router.beforeEach(async (to, never, next) => {
+  if (
+    !store.getters.auth &&
+    !unprotectedRoutes.find((route) => route.name === to.name)
+  ) {
+    next({ name: "login" });
+  } else {
+    next();
+  }
 });
 
 export default router;
