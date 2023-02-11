@@ -5,31 +5,38 @@
         <div class="navbar__body--logo">
           <h2>LOGO</h2>
         </div>
-        <button class="navbar__body--close" @closeSideMenu="handleClose(true)">
-          <span></span>
-          <span></span>
+        <button class="navbar__body--close" @click="open = !open">
+          <span :class="open ? 'active' : ''"></span>
+          <span :class="open ? 'active' : ''"></span>
         </button>
         <div class="navbar__body--paths">
           <ul>
             <li><router-link to="/">Home</router-link></li>
-            <li><router-link to="/products">Products</router-link></li>
-            <li><router-link to="/cart">My products</router-link></li>
-            <li><router-link to="/login">Log in</router-link></li>
-          </ul>
-        </div>
+            <li>
+              <router-link :to="$store.getters.auth != '' ? '/cart' : '/login'">
+                My products
 
-        <div class="navbar__body--options">
-          <router-link to="/">
-            <i class="fa-solid fa-cart-shopping"></i>
-          </router-link>
-          <router-link to="/login">
-            <i class="fa-solid fa-user"></i
-          ></router-link>
+                <span class="counter">{{
+                  this.$store.getters.cart.length
+                }}</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link v-if="!$store.getters.auth" to="/login"
+                >Log in</router-link
+              >
+              <span v-if="$store.getters.auth">
+                Hello, {{ $store.getters.name }} |
+              </span>
+
+              <span @click="logout" v-if="$store.getters.auth">Leave</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <SideMenu />
+    <SideMenu :showSideMenu="open" />
   </div>
 </template>
 
@@ -65,9 +72,18 @@
         span {
           width: 30px;
           border: 2px solid $white;
+          transition: 0.5s;
 
           &:last-child {
             width: 20px;
+          }
+        }
+        .active {
+          &:first-child {
+            width: 20px;
+          }
+          &:last-child {
+            width: 30px;
           }
         }
       }
@@ -78,16 +94,28 @@
         ul {
           width: 60%;
           display: flex;
+          align-items: center;
           justify-content: space-around;
 
+          a,
           li,
-          a {
+          button {
             color: $white;
             padding: 10px;
             font-size: 18px;
             font-weight: 500;
             list-style: none;
             text-decoration: none;
+            cursor: pointer;
+
+            a:first-child,
+            li:first-child {
+              span {
+                background: $obscure-orchid;
+                padding: 5px 10px;
+                border-radius: 100%;
+              }
+            }
           }
         }
       }
@@ -133,5 +161,22 @@ import SideMenu from "@/components/layout/SideMenu.vue";
     SideMenu,
   },
 })
-export default class NavBar extends Vue {}
+export default class NavBar extends Vue {
+  public open = false;
+
+  async logout() {
+    const noLogged = {
+      data: {
+        auth: false,
+        token: "",
+        user: {
+          name: "",
+          userId: undefined,
+        },
+      },
+    };
+
+    this.$store.commit("setUser", noLogged);
+  }
+}
 </script>
