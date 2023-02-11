@@ -20,7 +20,9 @@
               </router-link>
             </li>
             <li>
-              <router-link v-if="!$store.getters.auth"> Log in </router-link>
+              <router-link v-if="!$store.getters.auth" to="/login">
+                Log in
+              </router-link>
               <span @click="logout" v-if="$store.getters.auth">Leave</span>
             </li>
           </ul>
@@ -116,6 +118,10 @@
             border-bottom: 1px solid $white;
             text-decoration: none;
             text-transform: uppercase;
+
+            a {
+              border: none;
+            }
 
             &:nth-child(2) {
               span {
