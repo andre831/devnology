@@ -9,12 +9,18 @@
           <div class="complete-name">
             <div class="complete-name__field">
               <label for="name-field">Name:</label>
-              <input id="name-field" placeholder="Type your name" />
+              <input
+                v-model="buyInformations.name"
+                type="text"
+                id="name-field"
+                placeholder="Type your name"
+              />
             </div>
 
             <div class="complete-name__field">
               <label for="lastname-field">Lastname:</label>
               <input
+                v-model="buyInformations.last_name"
                 type="text"
                 id="lastname-field"
                 maxlength="15"
@@ -26,6 +32,7 @@
           <div class="document">
             <label for="document-field">Document/CPF:</label>
             <input
+              v-model="buyInformations.document"
               type="text"
               id="document-field"
               placeholder="Type your Document/CPF"
@@ -39,6 +46,7 @@
           <div class="shopping-card">
             <label for="card-name-field">Card Name:</label>
             <input
+              v-model="buyInformations.shopping_card.name"
               type="text"
               id="card-name-field"
               placeholder="Type your e-mail"
@@ -48,6 +56,7 @@
               <div class="shopping-card__identification--field">
                 <label for="card-number-field">Card Number:</label>
                 <input
+                  v-model="buyInformations.shopping_card.number_card"
                   type="number"
                   id="card-number-field"
                   placeholder="Type your card number"
@@ -57,6 +66,7 @@
               <div class="shopping-card__identification--field">
                 <label for="email-field">CVV:</label>
                 <input
+                  v-model="buyInformations.shopping_card.cvv"
                   type="number"
                   id="email-field"
                   placeholder="Type your CVV card"
@@ -68,14 +78,22 @@
             </div>
 
             <label for="card-type">Card Type:</label>
-            <select name="card-type" id="card-type">
+            <select
+              v-model="buyInformations.shopping_card.type"
+              name="card-type"
+              id="card-type"
+            >
               <option value="credit">Credit</option>
               <option value="debit">Debit</option>
             </select>
           </div>
         </form>
         <div class="checkout__body--submit">
-          <button class="btn__primary" type="submit" :disabled="enableLogin">
+          <button
+            class="btn__primary"
+            type="submit"
+            @click="teste(buyInformations)"
+          >
             SUBMIT
           </button>
         </div>
@@ -191,8 +209,32 @@
 </style>
 
 <script lang="ts">
+import { Inject } from "inversify-props";
 import { Component, Vue } from "vue-property-decorator";
 
+import ICheckoutService from "../services/CheckoutService/ICheckoutService";
+
 @Component
-export default class CheckoutView extends Vue {}
+export default class CheckoutView extends Vue {
+  @Inject() _checkoutService!: ICheckoutService;
+
+  public buyInformations = {
+    userId: 1,
+    name: "",
+    last_name: "",
+    document: "",
+    shopping_card: {
+      name: "",
+      cvv: 0,
+      number_card: "",
+      type: "",
+    },
+  };
+
+  teste(infos: any) {
+    this._checkoutService.postCheckoutInfos(infos).then((res) => {
+      this.$router.push("/");
+    });
+  }
+}
 </script>
