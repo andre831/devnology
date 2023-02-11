@@ -1,18 +1,18 @@
-import { NewUser } from "./User";
+import { User } from "./User";
 
-export interface LoginAuth {
+export interface UserAuth {
   data: {
     token: string;
     auth: boolean;
-    status: string;
+    user: User;
+    status: boolean;
   };
 }
 
-export interface NewUserAuth {
-  data: {
-    token: string;
-    auth: boolean;
-    user: NewUser;
-    status: boolean;
-  };
+export interface UserLogged {
+  userId: number;
+  name: string;
+  id: number;
+  auth: boolean;
+  token: string;
 }

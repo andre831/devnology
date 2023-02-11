@@ -150,7 +150,8 @@ export default class SignUpView extends Vue {
   async postNewUser() {
     const newUser = await this._userService
       .signUp(this.signUpInfos)
-      .then((res) => this.$store.commit("setUserToken", res.data.token));
+      .then((res) => this.$store.commit("setUser", res))
+      .then(() => this.$router.push("/"));
 
     return newUser;
   }

@@ -7,7 +7,7 @@
       <div class="login__body--fields">
         <label for="email-field">E-mail:</label>
         <input
-          v-model="emailField"
+          v-model="loginInfos.email"
           type="email"
           id="email-field"
           placeholder="Type your e-mail"
@@ -15,7 +15,7 @@
 
         <label for="password-field">Password:</label>
         <input
-          v-model="passwordField"
+          v-model="loginInfos.password"
           type="password"
           id="password-field"
           maxlength="15"
@@ -24,7 +24,7 @@
       </div>
 
       <div class="login__body--buttons">
-        <button class="btn__primary" type="submit" :disabled="enableLogin">
+        <button @click="postLogin" class="btn__primary" type="submit">
           LOGIN
         </button>
         <button class="btn__secondary" @click="$router.push('/signup')">
@@ -33,9 +33,6 @@
       </div>
     </section>
     <section class="login__footer">
-      <div class="login__footer--forget-pass">
-        <router-link to="/forget">Forget your password?</router-link>
-      </div>
       <div class="login__footer--home">
         <router-link to="/">Go to home</router-link>
       </div>
@@ -114,33 +111,46 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Inject } from "inversify-props";
 
+import IUserService from "../services/UserService/IUserService";
 import IValidateService from "../services/ValidateService/IValidateService";
 
 @Component
 export default class LoginView extends Vue {
+  @Inject() _userService!: IUserService;
   @Inject() _validateService!: IValidateService;
-
-  public emailField = "";
-  public passwordField = "";
 
   public enableLogin = true;
 
-  beforeUpdate() {
+  public loginInfos = {
+    email: "",
+    password: "",
+  };
+
+  update() {
     this.validField();
   }
 
   private validField() {
     const verifyEmail = this._validateService.checkEmailField(
-      this.emailField,
+      this.loginInfos.email,
       "#email-field"
     );
 
     const verifyPasswd = this._validateService.checkPasswordField(
-      this.passwordField,
+      this.loginInfos.password,
       "#password-field"
     );
 
-    if (verifyEmail && verifyPasswd) this.enableLogin = false;
+    if (!verifyEmail && !verifyPasswd) this.enableLogin = true;
+  }
+
+  async postLogin() {
+    const newUser = await this._userService
+      .login(this.loginInfos)
+      .then((res) => this.$store.commit("setUser", res))
+      .then(() => this.$router.push("/"));
+
+    return newUser;
   }
 }
 </script>
