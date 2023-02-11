@@ -102,25 +102,19 @@ export default class ShopCartView extends Vue {
   @Inject() _productsService!: IProductsService;
 
   public cart: { product: Product; selected: boolean }[] = [];
-  private totalItemsValue = 0;
-  private totalDelivery = 0;
-  private totalValue = 0;
-
-  private total = 0;
 
   mounted() {
     this.cart = this.$store.getters.cart;
-    this.totalItemsValue = this.$store.getters.totalItems;
-    this.totalDelivery = this.$store.getters.delivery;
-    this.totalValue = this.$store.getters.totalValue;
 
     console.log(this.$store.getters.totalItems);
   }
 
   sumAllItems() {
-    this.$store.commit("setTotalValues", this.total);
+    let sum = this.$store.getters.totalItems + this.$store.getters.delivery;
 
-    return this.total;
+    this.$store.commit("setTotalValues", sum);
+
+    return sum;
   }
 }
 </script>
