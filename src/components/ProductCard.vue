@@ -109,10 +109,6 @@ export default class ProductCard extends Vue {
     this.discount = this.transformToPercentage();
   }
 
-  mounted() {
-    console.log(this.verifyCart(this.product));
-  }
-
   verifyCart(item: Product) {
     return this.$store.getters.cart.some((element: { product: Product }) => {
       return element.product.id === item.id;
