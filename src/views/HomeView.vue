@@ -17,11 +17,25 @@
 </template>
 
 <style lang="scss" scoped>
+@import "@/styles/global.scss";
+
 .home-view {
-  &__body {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  .home {
+    &__body {
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  @include break-up(map-get($breakpoints, "md")) {
+    .home {
+      &__body {
+        justify-content: space-between;
+      }
+    }
   }
 }
 </style>
