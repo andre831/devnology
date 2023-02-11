@@ -8,23 +8,22 @@
       <div class="side-menu__body">
         <section class="side-menu__body--pages">
           <ul>
-            <li>Home</li>
             <li>
-              Products
-              <i class="fa-solid fa-chevron-down"></i>
+              <router-link to="/"> Home </router-link>
             </li>
             <li>
-              My products
-              <i class="fa-solid fa-chevron-down"></i>
+              <router-link to="/cart">
+                My products
+                <span class="counter">{{
+                  this.$store.getters.cart.length
+                }}</span>
+              </router-link>
             </li>
-            <li>Log in</li>
+            <li>
+              <router-link v-if="!$store.getters.auth"> Log in </router-link>
+              <span @click="logout" v-if="$store.getters.auth">Leave</span>
+            </li>
           </ul>
-        </section>
-
-        <section class="side-menu__body--back">
-          <button @click="showSideMenu = !showSideMenu">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
         </section>
       </div>
     </div>
@@ -35,14 +34,14 @@
 @import "@/styles/global.scss";
 
 .container {
-  width: 50%;
+  width: 38%;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
   padding: 0 65px;
   background-color: $sooty;
-  transition: 1s;
+  transition: 0.7s;
   overflow-y: auto;
   z-index: 1000;
 
@@ -107,14 +106,24 @@
           justify-content: space-between;
           list-style: none;
 
-          li {
+          li,
+          a {
             height: 50px;
             display: flex;
             align-items: center;
             color: $white;
             justify-content: space-between;
             border-bottom: 1px solid $white;
+            text-decoration: none;
             text-transform: uppercase;
+
+            &:nth-child(2) {
+              span {
+                background: $obscure-orchid;
+                padding: 5px 10px;
+                border-radius: 100%;
+              }
+            }
           }
         }
       }
@@ -149,10 +158,25 @@
 </style>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class SideMenu extends Vue {
-  public showSideMenu = false;
+  @Prop({ default: false }) showSideMenu!: boolean;
+
+  logout() {
+    const noLogged = {
+      data: {
+        auth: false,
+        token: "",
+        user: {
+          name: "",
+          userId: undefined,
+        },
+      },
+    };
+
+    this.$store.commit("setUser", noLogged);
+  }
 }
 </script>

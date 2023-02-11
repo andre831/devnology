@@ -5,7 +5,7 @@
         <div class="navbar__body--logo">
           <h2>LOGO</h2>
         </div>
-        <button class="navbar__body--close" @click="open = !open">
+        <button class="navbar__body--close" @click="teste">
           <span :class="open ? 'active' : ''"></span>
           <span :class="open ? 'active' : ''"></span>
         </button>
@@ -70,20 +70,16 @@
         justify-content: space-between;
 
         span {
-          width: 30px;
+          width: 20px;
           border: 2px solid $white;
           transition: 0.5s;
-
-          &:last-child {
-            width: 20px;
-          }
         }
         .active {
           &:first-child {
-            width: 20px;
+            transform: rotate(-45deg) translate(-3px, 6px);
           }
           &:last-child {
-            width: 30px;
+            transform: rotate(45deg) translate(0, -3px);
           }
         }
       }
@@ -164,7 +160,7 @@ import SideMenu from "@/components/layout/SideMenu.vue";
 export default class NavBar extends Vue {
   public open = false;
 
-  async logout() {
+  logout() {
     const noLogged = {
       data: {
         auth: false,
@@ -177,6 +173,10 @@ export default class NavBar extends Vue {
     };
 
     this.$store.commit("setUser", noLogged);
+  }
+
+  teste() {
+    this.open = !this.open;
   }
 }
 </script>
