@@ -3,40 +3,47 @@
     <section class="sign-up__header">
       <h2>Register</h2>
     </section>
-    <section class="sign-up__body">
+    <form class="sign-up__body">
       <div class="sign-up__body--fields">
         <label for="name-field">Name:</label>
-        <input type="name" id="name-field" placeholder="Type your name" />
+        <input
+          v-model="signUpInfos.name"
+          type="name"
+          id="name-field"
+          placeholder="Type your name"
+        />
 
         <label for="last-name-field">Last name:</label>
         <input
+          v-model="signUpInfos.last_name"
           type="last-name"
           id="last-name-field"
           placeholder="Type your last name"
         />
 
         <label for="email-field">E-mail:</label>
-        <input type="email" id="email-field" placeholder="Type your e-mail" />
+        <input
+          v-model="signUpInfos.email"
+          type="email"
+          id="email-field"
+          placeholder="Type your e-mail"
+        />
 
         <label for="password-field">Password:</label>
         <input
+          v-model="signUpInfos.password"
           type="password"
           id="password-field"
-          placeholder="Type your password"
-        />
-
-        <label for="confirm-password-field">Confirm your password:</label>
-        <input
-          type="password"
-          id="confirm-password-field"
           placeholder="Type your password"
         />
       </div>
 
       <div class="sign-up__body--buttons">
-        <button class="btn__primary" type="submit">CONFIRM</button>
+        <button @click="postNewUser" class="btn__primary" type="submit">
+          CONFIRM
+        </button>
       </div>
-    </section>
+    </form>
     <section class="sign-up__footer">
       <div class="sign-up__footer--back">
         <router-link to="/login">Return to login</router-link>
@@ -83,7 +90,7 @@
       justify-content: space-around;
 
       input {
-        height: 68px;
+        height: 50px;
         margin-bottom: 10px;
         padding: 0 5px;
       }
@@ -125,7 +132,27 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Inject } from "inversify-props";
+
+import IUserService from "../services/UserService/IUserService";
 
 @Component
-export default class SignUpView extends Vue {}
+export default class SignUpView extends Vue {
+  @Inject() _userService!: IUserService;
+
+  public signUpInfos = {
+    name: "",
+    last_name: "",
+    email: "",
+    password: "",
+  };
+
+  async postNewUser() {
+    const newUser = await this._userService
+      .signUp(this.signUpInfos)
+      .then((res) => this.$store.commit("setUserToken", res.data.token));
+
+    return newUser;
+  }
+}
 </script>
