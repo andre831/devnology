@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavBar />
+    <NavBar v-if="$route.path !== '/login' && $route.path !== '/signup'" />
     <Container>
       <template v-slot:body>
         <router-view />
