@@ -5,9 +5,10 @@ import VueRouter, { RouteConfig } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import SignUpView from "@/views/SignUpView.vue";
-import ProductsFromOriginView from "@/views/ProductsFromOriginView.vue";
 import ShopCartView from "@/views/ShopCartView.vue";
 import CheckoutView from "@/views/CheckoutView.vue";
+
+import ProductsFromOriginView from "@/views/ProductsFromOriginView.vue";
 
 Vue.use(VueRouter);
 
@@ -28,14 +29,14 @@ const unprotectedRoutes: Array<RouteConfig> = [
     component: SignUpView,
   },
   {
-    path: "/product/:origin",
-    name: "Product",
-    component: ProductsFromOriginView,
-  },
-  {
     path: "/cart",
     name: "Shop Cart",
     component: ShopCartView,
+  },
+  {
+    path: "/product/:origin",
+    name: "ProductsFromOriginView",
+    component: ProductsFromOriginView,
   },
 ];
 

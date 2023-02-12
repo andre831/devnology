@@ -28,11 +28,13 @@
           Remove from cart
         </button>
 
-        <button class="btn__secondary" v-if="cardType == 'normal'">
-          See Details
-        </button>
+        <button @click="openModal" class="btn__secondary">See Details</button>
       </div>
     </div>
+
+    <Modal ref="modal" closeModal="">
+      <ProductDetails :product="product" />
+    </Modal>
   </div>
 </template>
 
@@ -84,7 +86,15 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 import { Product } from "../types/Product";
 
-@Component
+import Modal from "../components/Modal.vue";
+import ProductDetails from "../components/ProductDetails.vue";
+
+@Component({
+  components: {
+    Modal,
+    ProductDetails,
+  },
+})
 export default class ProductCard extends Vue {
   @Prop({
     default: {
@@ -105,7 +115,6 @@ export default class ProductCard extends Vue {
   readonly product!: Product;
 
   @Prop({ default: false }) readonly selected!: boolean;
-  @Prop({ default: "normal" }) readonly type!: string;
 
   public discount = 0;
   public cardType = "";
@@ -114,22 +123,8 @@ export default class ProductCard extends Vue {
     this.discount = this.transformToPercentage();
   }
 
-  setCartType() {
-    switch (this.type) {
-      case "BRAZILIAN":
-        this.cardType = "br";
-        break;
-      case "EUROPEAN":
-        this.cardType = "ue";
-        break;
-
-      case "normal":
-        this.cardType = "normal";
-        break;
-      default:
-        this.cardType = "normal";
-        break;
-    }
+  openModal() {
+    (this.$refs.modal as any).open();
   }
 
   verifyCart(item: Product) {

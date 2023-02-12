@@ -2,29 +2,29 @@
   <div class="product-view">
     <div class="product-title">
       <p>Product</p>
-      <p>{{ product.nome }}</p>
+      <p>{{ product.name }}</p>
     </div>
 
     <div class="product-details">
       <div class="details">
-        <img :src="product.imagem" alt="" />
+        <img :src="product.images[0]" alt="" />
 
         <div class="details__body">
           <div class="details__body--description">
             <p>Description:</p>
-            <p>{{ product.descricao }}</p>
+            <p>{{ product.description }}</p>
           </div>
           <div class="details__body--category">
             <p>Category:</p>
-            <p>{{ product.categoria }}</p>
+            <p>{{ product.details.material }}</p>
           </div>
           <div class="details__body--name">
             <p>Name:</p>
-            <p>{{ product.nome }}</p>
+            <p>{{ product.name }}</p>
           </div>
           <div class="details__body--price">
             <p>Price:</p>
-            <p>${{ product.preco }}</p>
+            <p>${{ product.price }}</p>
           </div>
           <div class="details__body--buttons">
             <button class="btn__primary">Add to cart</button>
@@ -71,6 +71,9 @@
     align-items: center;
 
     .details {
+      height: 400px;
+      overflow-y: auto;
+
       img {
         min-width: 304px;
         width: 100%;
@@ -113,7 +116,7 @@
             width: 80%;
             max-width: 637px;
             position: fixed;
-            bottom: 20px;
+            bottom: -25px;
           }
         }
       }
@@ -121,7 +124,7 @@
   }
 
   @include break-up(map-get($breakpoints, "lg")) {
-    height: 630px;
+    height: 720px;
 
     .product-details {
       height: 100%;
@@ -129,6 +132,7 @@
       flex-direction: row;
 
       .details {
+        height: inherit;
         display: flex;
 
         &__body {
@@ -151,32 +155,35 @@
 </style>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { Inject } from "inversify-props";
 
-import IProductsService from "../services/ProductsService/IProductsService";
+import { Product } from "../types/Product";
 
-import { BrazilianProduct } from "../types/ProductsFromBrazil";
-import { EuropeanProduct } from "../types/ProductsFromEurope";
+import IProductsService from "../services/ProductsService/IProductsService";
+import IFormaterService from "../services/FormaterService/IFormaterService";
 
 @Component
-export default class ProductView extends Vue {
+export default class ProductDetails extends Vue {
   @Inject() _productsService!: IProductsService;
+  @Inject() _formaterService!: IFormaterService;
 
-  public product = {} as BrazilianProduct | EuropeanProduct;
-
-  created() {
-    console.log(this.$route.params.origin);
-
-    if (this.$route.params.origin == "brazilian") {
-      this._productsService
-        .getOnlyProductFromBrazil(this.$route.params.id)
-        .then((res) => (this.product = res));
-    } else if (this.$route.params.origin == "european") {
-      this._productsService
-        .getOnlyProductFromEurope(this.$route.params.id)
-        .then((res) => (this.product = res));
-    }
-  }
+  @Prop({
+    default: {
+      id: "",
+      name: "",
+      price: 0,
+      description: "",
+      details: {
+        adjective: "",
+        material: "",
+      },
+      department: "",
+      images: [],
+      hasDiscount: false,
+      discountValue: 0,
+    },
+  })
+  readonly product!: Product;
 }
 </script>
