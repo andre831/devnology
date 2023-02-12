@@ -1,5 +1,5 @@
 const state = {
-  delivery: 0,
+  delivery: 25,
   totalItems: 0,
   totalValue: 0,
 };
@@ -12,7 +12,7 @@ const getters = {
 
 const mutations = {
   setDelivery(state: { delivery: number }, value: number) {
-    state.delivery = value;
+    state.delivery = 25;
   },
 
   setTotalItems(state: { totalItems: number }, value: number) {
