@@ -17,23 +17,11 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": "@",
-    "types": [
-      "webpack-env",
-      "reflect-metadata",
-    ],
+    "types": ["webpack-env", "reflect-metadata"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
+      "@/*": ["/src/*"]
     },
-    "lib": [
-      "es2017", 
-      "es7", 
-      "es6",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["es2017", "es7", "es6", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
@@ -41,8 +29,5 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }
