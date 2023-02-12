@@ -12,9 +12,8 @@
         <p>{{ product.name }}</p>
       </div>
       <div class="product-card__body--buttons">
-        <button class="btn__primary">See Details</button>
         <button
-          class="btn__secondary"
+          class="btn__primary"
           v-if="!verifyCart(product)"
           @click="addToCart(product)"
         >
@@ -22,11 +21,15 @@
           {{ product.hasDiscount ? " - " + discount + "%" : null }}
         </button>
         <button
-          class="btn__secondary"
+          class="btn__primary"
           v-if="verifyCart(product)"
           @click="removeFromCart(product)"
         >
           Remove from cart
+        </button>
+
+        <button class="btn__secondary" v-if="cardType == 'normal'">
+          See Details
         </button>
       </div>
     </div>
@@ -102,11 +105,31 @@ export default class ProductCard extends Vue {
   readonly product!: Product;
 
   @Prop({ default: false }) readonly selected!: boolean;
+  @Prop({ default: "normal" }) readonly type!: string;
 
   public discount = 0;
+  public cardType = "";
 
   created() {
     this.discount = this.transformToPercentage();
+  }
+
+  setCartType() {
+    switch (this.type) {
+      case "BRAZILIAN":
+        this.cardType = "br";
+        break;
+      case "EUROPEAN":
+        this.cardType = "ue";
+        break;
+
+      case "normal":
+        this.cardType = "normal";
+        break;
+      default:
+        this.cardType = "normal";
+        break;
+    }
   }
 
   verifyCart(item: Product) {
