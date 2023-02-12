@@ -5,7 +5,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import SignUpView from "@/views/SignUpView.vue";
-import ProductView from "@/views/ProductView.vue";
+import ProductsFromOriginView from "@/views/ProductsFromOriginView.vue";
 import ShopCartView from "@/views/ShopCartView.vue";
 import CheckoutView from "@/views/CheckoutView.vue";
 
@@ -28,9 +28,9 @@ const unprotectedRoutes: Array<RouteConfig> = [
     component: SignUpView,
   },
   {
-    path: "/product/:origin/:id",
+    path: "/product/:origin",
     name: "Product",
-    component: ProductView,
+    component: ProductsFromOriginView,
   },
   {
     path: "/cart",

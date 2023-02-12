@@ -7,7 +7,7 @@ import { EuropeanProduct } from "../../types/ProductsFromEurope";
 import IFormaterService from "./IFormaterService";
 
 @injectable()
-export default class FormatService implements IFormaterService {
+export default class FormaterService implements IFormaterService {
   formatProductUE(items: EuropeanProduct[]) {
     const formatedProduct: Product[] = items.map((product) => ({
       id: product.id + 2,

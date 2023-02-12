@@ -1,15 +1,57 @@
 <template>
   <div class="home-view">
     <div class="home">
-      <div class="home__header">
-        <SearchItemsFilter
-          :items="allproducts"
-          @update:filteredItems="updateFilteredItems"
-        />
-      </div>
+      <div class="home__header"></div>
       <div class="home__body">
-        <div v-for="item in filteredItems" :key="item.id">
-          <ProductCard :product="item" />
+        <div class="home__body--view">
+          <div class="view__title">
+            <h2>European Products</h2>
+          </div>
+          <div class="view__body">
+            <div v-for="item in formatProductUE().slice(0, 5)" :key="item.id">
+              <ProductCard :product="item" />
+            </div>
+          </div>
+          <div class="view__button">
+            <button
+              @click="$router.push('/product/european')"
+              class="btn__primary"
+            >
+              See all european products
+            </button>
+          </div>
+        </div>
+
+        <div class="home__body--view">
+          <div class="view__title">
+            <h2>Brazilian Products</h2>
+          </div>
+          <div class="view__body">
+            <div v-for="item in formatProductBR().slice(0, 5)" :key="item.id">
+              <ProductCard :product="item" />
+            </div>
+          </div>
+          <div class="view__button">
+            <button
+              @click="$router.push('/product/brazilian')"
+              class="btn__primary"
+            >
+              See all brazilian products
+            </button>
+          </div>
+        </div>
+
+        <div class="home__body--all">
+          <div class="all__title">
+            <h2>All Products</h2>
+          </div>
+          <SearchItemsFilter
+            :items="allproducts"
+            @update:filteredItems="updateFilteredItems"
+          />
+          <div v-for="item in filteredItems.slice(0, 60)" :key="item.id">
+            <ProductCard :product="item" />
+          </div>
         </div>
       </div>
     </div>
@@ -21,18 +63,73 @@
 
 .home-view {
   .home {
+    width: 100%;
+
     &__body {
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
+
+      &--view {
+        width: 100%;
+        .view {
+          &__title {
+            margin-bottom: 20px;
+            border-bottom: 1px solid $sooty;
+          }
+
+          &__body {
+            width: 100%;
+            max-width: 95vw;
+            display: flex;
+            justify-content: space-between;
+            overflow-x: auto;
+
+            & > div {
+              margin-right: 15px;
+
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+          }
+
+          &__button {
+            margin: 20px 0;
+            display: flex;
+            justify-content: end;
+
+            button {
+              width: 200px;
+            }
+          }
+        }
+      }
+
+      &--all {
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        & > div {
+          display: flex;
+        }
+
+        .all {
+          &__title {
+            width: 100%;
+            margin-bottom: 20px;
+            border-bottom: 1px solid $sooty;
+          }
+        }
+      }
     }
   }
 
-  @include break-up(map-get($breakpoints, "md")) {
+  @include break-up(map-get($breakpoints, "sm")) {
     .home {
-      &__body {
+      &__body--all {
         justify-content: space-between;
       }
     }
@@ -62,7 +159,7 @@ import IFormaterService from "../services/FormaterService/IFormaterService";
 })
 export default class HomeView extends Vue {
   @Inject() _productsService!: IProductsService;
-  @Inject() _formatService!: IFormaterService;
+  @Inject() _formaterService!: IFormaterService;
 
   public productBR: BrazilianProduct[] = [];
   public productUE: EuropeanProduct[] = [];
@@ -89,11 +186,11 @@ export default class HomeView extends Vue {
   }
 
   formatProductBR() {
-    return this._formatService.formatProductBR(this.productBR);
+    return this._formaterService.formatProductBR(this.productBR);
   }
 
   formatProductUE() {
-    return this._formatService.formatProductUE(this.productUE);
+    return this._formaterService.formatProductUE(this.productUE);
   }
 
   async getBrazilianProducts() {
