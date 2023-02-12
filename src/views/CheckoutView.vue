@@ -239,13 +239,20 @@ export default class CheckoutView extends Vue {
   private informationToPay: PayInformations = {
     userId: this.$store.getters.userId,
     items: this.$store.getters.cart,
-    total: this.$store.getters.totalValue,
+    total: String(this.$store.getters.totalValue),
     localId: null,
     purchaseId: null,
   };
 
   async mounted() {
     await this.getDeliveryLocal();
+    console.log(await this.getDeliveryLocal());
+  }
+
+  async completeBuy() {
+    return await this._checkoutService
+      .postCompletePayment(this.informationToPay)
+      .then((res) => console.log(res));
   }
 
   async postCheckoutInformations() {
@@ -255,7 +262,8 @@ export default class CheckoutView extends Vue {
         if (res.data.id) {
           this.informationToPay.purchaseId = res.data.id;
         }
-      });
+      })
+      .then(() => this.completeBuy());
   }
 
   async getDeliveryLocal() {
@@ -265,6 +273,8 @@ export default class CheckoutView extends Vue {
         if (res.data[0].id) {
           this.informationToPay.localId = res.data[0].id;
         }
+
+        return res.data[0];
       });
   }
 }

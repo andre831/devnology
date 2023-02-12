@@ -30,5 +30,5 @@ export interface PayInformations {
   localId: number | null;
   purchaseId: number | null;
   items: Product[];
-  total: number;
+  total: string;
 }

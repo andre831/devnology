@@ -1,4 +1,8 @@
-import { CheckoutInfos, NewCheckoutInfos } from "../../types/Checkout";
+import {
+  CheckoutInfos,
+  NewCheckoutInfos,
+  PayInformations,
+} from "../../types/Checkout";
 
 export default interface ICheckoutService {
   getCheckoutInfos(
@@ -8,4 +12,8 @@ export default interface ICheckoutService {
   postCheckoutInfos(
     infos: NewCheckoutInfos
   ): Promise<{ success: boolean; data: CheckoutInfos }>;
+
+  postCompletePayment(
+    infos: PayInformations
+  ): Promise<{ success: boolean; data: PayInformations }>;
 }

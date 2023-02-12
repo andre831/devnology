@@ -1,6 +1,10 @@
 import axios from "axios";
 import { injectable } from "inversify-props";
-import { CheckoutInfos, NewCheckoutInfos } from "../../types/Checkout";
+import {
+  CheckoutInfos,
+  NewCheckoutInfos,
+  PayInformations,
+} from "../../types/Checkout";
 import ICheckoutService from "./ICheckoutService";
 
 @injectable()
@@ -19,5 +23,13 @@ export default class CheckoutService implements ICheckoutService {
       .then((res) => res.data);
 
     return postedInfos;
+  }
+
+  async postCompletePayment(infos: PayInformations) {
+    const payment = axios
+      .post("http://localhost:3333/resume", infos)
+      .then((res) => res.data);
+
+    return payment;
   }
 }
