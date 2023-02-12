@@ -6,7 +6,7 @@
     <div class="cart-resume__body">
       <div
         class="cart-resume__body--items"
-        v-for="item in resumeItems"
+        v-for="item in this.$store.getters.cart"
         :key="item.items.product.id"
       >
         <div class="item">
@@ -84,35 +84,28 @@ import { Product } from "../../types/Product";
 
 @Component
 export default class ResumeCart extends Vue {
-  public resumeItems: {
-    userId: number;
-    items: { product: Product; amount: 1; selected: true };
-  }[] = [];
-
-  mounted() {
-    this.resumeItems = this.$store.getters.cart;
-
-    this.sumTotal();
-  }
-
   sumTotal() {
     let total = 0;
 
-    this.resumeItems.forEach((item) => {
-      const valid = item.items;
+    this.$store.getters.cart.forEach(
+      (item: {
+        userId: number;
+        items: { product: Product; amount: 1; selected: true };
+      }) => {
+        let totalItemsValue = item.items.product.price;
 
-      let totalItemsValue = valid.product.price;
+        if (item.items.product.hasDiscount) {
+          const discount = item.items.product.discountValue * 100;
 
-      if (valid.product.hasDiscount) {
-        const discount = valid.product.discountValue * 100;
+          totalItemsValue =
+            totalItemsValue - (totalItemsValue * discount) / 100;
+        }
 
-        totalItemsValue = totalItemsValue - (totalItemsValue * discount) / 100;
+        total += totalItemsValue * item.items.amount;
+
+        total = Math.round(total);
       }
-
-      total += totalItemsValue * valid.amount;
-
-      total = Math.round(total);
-    });
+    );
 
     this.$store.commit("setTotalItems", total);
 

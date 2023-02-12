@@ -2,7 +2,11 @@
   <div class="shop-cart">
     <div class="shop-cart__body">
       <div class="shop-cart__body--products">
-        <div class="product" v-for="item in cart" :key="item.items.product.id">
+        <div
+          class="product"
+          v-for="item in this.$store.getters.cart"
+          :key="item.items.product.id"
+        >
           <CartProduct :item="item.items.product" :selected="item.selected" />
         </div>
       </div>
