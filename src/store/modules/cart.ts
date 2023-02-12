@@ -1,9 +1,13 @@
+import store from "..";
 import { Product } from "../../types/Product";
 
 interface CartProduct {
-  product: Product;
-  amount: number;
-  selected: boolean;
+  userId: number;
+  items: {
+    product: Product;
+    amount: number;
+    selected: boolean;
+  };
 }
 
 interface State {
@@ -15,19 +19,23 @@ const state = {
 };
 
 const getters = {
-  cart: (state: State) => state.cart,
+  cart: (state: State) =>
+    state.cart.filter((valid) => valid.userId === store.getters.userId),
 };
 
 const mutations = {
   addToCart(state: State, payload: Product) {
     if (!payload) return;
 
-    state.cart.push({ product: payload, amount: 1, selected: true });
+    state.cart.push({
+      userId: store.getters.userId,
+      items: { product: payload, amount: 1, selected: true },
+    });
   },
 
   removeFromCart(state: State, item: Product) {
     state.cart.filter((product, index) => {
-      if (product.product.id == item.id) {
+      if (product.items.product.id == item.id) {
         state.cart.splice(index, 1);
       }
     });
@@ -35,16 +43,16 @@ const mutations = {
 
   sumItem(state: State, payload: Product) {
     state.cart.find((product) => {
-      if (product.product.id == payload.id) {
-        product.amount++;
+      if (product.items.product.id == payload.id) {
+        product.items.amount++;
       }
     });
   },
 
   subItem(state: State, payload: Product) {
     state.cart.find((product) => {
-      if (product.product.id == payload.id) {
-        product.amount--;
+      if (product.items.product.id == payload.id) {
+        product.items.amount--;
       }
     });
   },

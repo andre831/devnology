@@ -2,8 +2,8 @@
   <div class="shop-cart">
     <div class="shop-cart__body">
       <div class="shop-cart__body--products">
-        <div class="product" v-for="item in cart" :key="item.product.id">
-          <CartProduct :item="item.product" :selected="item.selected" />
+        <div class="product" v-for="item in cart" :key="item.items.product.id">
+          <CartProduct :item="item.items.product" :selected="item.selected" />
         </div>
       </div>
 
@@ -105,8 +105,6 @@ export default class ShopCartView extends Vue {
 
   mounted() {
     this.cart = this.$store.getters.cart;
-
-    console.log(this.$store.getters.totalItems);
   }
 
   sumAllItems() {

@@ -128,9 +128,11 @@ export default class ProductCard extends Vue {
   }
 
   verifyCart(item: Product) {
-    return this.$store.getters.cart.some((element: { product: Product }) => {
-      return element.product.id === item.id;
-    });
+    return this.$store.getters.cart.some(
+      (element: { items: { product: Product } }) => {
+        return element.items.product.id === item.id;
+      }
+    );
   }
 
   transformToPercentage() {

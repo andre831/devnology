@@ -183,6 +183,7 @@ export default class SideMenu extends Vue {
     };
 
     this.$store.commit("setUser", noLogged);
+    location.reload();
   }
 }
 </script>

@@ -5,7 +5,7 @@
         <div class="navbar__body--logo">
           <h2>LOGO</h2>
         </div>
-        <button class="navbar__body--close" @click="teste">
+        <button class="navbar__body--close" @click="show">
           <span :class="open ? 'active' : ''"></span>
           <span :class="open ? 'active' : ''"></span>
         </button>
@@ -173,9 +173,10 @@ export default class NavBar extends Vue {
     };
 
     this.$store.commit("setUser", noLogged);
+    location.reload();
   }
 
-  teste() {
+  show() {
     this.open = !this.open;
   }
 }
