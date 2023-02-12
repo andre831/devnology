@@ -6,6 +6,7 @@ import { createDirectStore } from "direct-vuex";
 import auth from "./modules/auth";
 import cart from "./modules/cart";
 import resumes from "./modules/resumes";
+import delivery from "./modules/delivery";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ const { store } = createDirectStore({
     auth,
     cart,
     resumes,
+    delivery,
   },
   plugins: [createPersistedState()],
 });
