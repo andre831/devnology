@@ -45,7 +45,8 @@
 
   @include break-up(map-get($breakpoints, "lg")) {
     &__content {
-      width: 75%;
+      width: 100%;
+      max-width: 1130px;
     }
   }
 }
