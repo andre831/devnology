@@ -92,7 +92,7 @@
           <button
             class="btn__primary"
             type="submit"
-            @click="teste(buyInformations)"
+            @click="postCheckoutInformations"
           >
             SUBMIT
           </button>
@@ -212,14 +212,19 @@
 import { Inject } from "inversify-props";
 import { Component, Vue } from "vue-property-decorator";
 
+import { DeliveryLocal } from "../types/DeliveryLocal";
+import { PayInformations } from "../types/Checkout";
+
 import ICheckoutService from "../services/CheckoutService/ICheckoutService";
+import IDeliveryService from "../services/DeliveryService/IDeliveryService";
 
 @Component
 export default class CheckoutView extends Vue {
   @Inject() _checkoutService!: ICheckoutService;
+  @Inject() _deliveryService!: IDeliveryService;
 
   public buyInformations = {
-    userId: 1,
+    userId: this.$store.getters.userId,
     name: "",
     last_name: "",
     document: "",
@@ -231,10 +236,36 @@ export default class CheckoutView extends Vue {
     },
   };
 
-  teste(infos: any) {
-    this._checkoutService.postCheckoutInfos(infos).then((res) => {
-      this.$router.push("/");
-    });
+  private informationToPay: PayInformations = {
+    userId: this.$store.getters.userId,
+    items: this.$store.getters.cart,
+    total: this.$store.getters.totalValue,
+    localId: null,
+    purchaseId: null,
+  };
+
+  async mounted() {
+    await this.getDeliveryLocal();
+  }
+
+  async postCheckoutInformations() {
+    await this._checkoutService
+      .postCheckoutInfos(this.buyInformations)
+      .then((res) => {
+        if (res.data.id) {
+          this.informationToPay.purchaseId = res.data.id;
+        }
+      });
+  }
+
+  async getDeliveryLocal() {
+    return await this._deliveryService
+      .getDeliveryInfos(this.$store.getters.userId)
+      .then((res) => {
+        if (res.data[0].id) {
+          this.informationToPay.localId = res.data[0].id;
+        }
+      });
   }
 }
 </script>
