@@ -49,7 +49,7 @@
               v-model="buyInformations.shopping_card.name"
               type="text"
               id="card-name-field"
-              placeholder="Type your e-mail"
+              placeholder="Type your card name"
             />
 
             <div class="shopping-card__identification">
@@ -64,11 +64,11 @@
               </div>
 
               <div class="shopping-card__identification--field">
-                <label for="email-field">CVV:</label>
+                <label for="cvv-field">CVV:</label>
                 <input
                   v-model="buyInformations.shopping_card.cvv"
                   type="number"
-                  id="email-field"
+                  id="cvv-field"
                   placeholder="Type your CVV card"
                   min="3"
                   max="6"
@@ -217,11 +217,13 @@ import { PayInformations } from "../types/Checkout";
 
 import ICheckoutService from "../services/CheckoutService/ICheckoutService";
 import IDeliveryService from "../services/DeliveryService/IDeliveryService";
+import ISwalService from "../services/SwalService/ISwalService";
 
 @Component
 export default class CheckoutView extends Vue {
   @Inject() _checkoutService!: ICheckoutService;
   @Inject() _deliveryService!: IDeliveryService;
+  @Inject() _swalService!: ISwalService;
 
   public buyInformations = {
     userId: this.$store.getters.userId,
@@ -252,7 +254,11 @@ export default class CheckoutView extends Vue {
   async completeBuy() {
     return await this._checkoutService
       .postCompletePayment(this.informationToPay)
-      .then((res) => console.log(res));
+      .then(() =>
+        this._swalService
+          .success("Congratulations! Your order has been requested", "Return")
+          .then(() => this.$router.push("/"))
+      );
   }
 
   async postCheckoutInformations() {

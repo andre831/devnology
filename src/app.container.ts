@@ -12,6 +12,8 @@ import IUserService from "./services/UserService/IUserService";
 import UserService from "./services/UserService/UserService";
 import IDeliveryService from "./services/DeliveryService/IDeliveryService";
 import DeliveryService from "./services/DeliveryService/DeliveryService";
+import ISwalService from "./services/SwalService/ISwalService";
+import SwalService from "./services/SwalService/SwalService";
 
 export default function buildDependencyContainer(): void {
   container.addTransient<IValidateService>(ValidateService);
@@ -20,4 +22,5 @@ export default function buildDependencyContainer(): void {
   container.addTransient<ICheckoutService>(CheckoutService);
   container.addTransient<IUserService>(UserService);
   container.addTransient<IDeliveryService>(DeliveryService);
+  container.addTransient<ISwalService>(SwalService);
 }

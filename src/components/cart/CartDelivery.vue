@@ -102,11 +102,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Inject } from "inversify-props";
 
+import ISwalService from "../../services/SwalService/ISwalService";
 import IDeliveryService from "../../services/DeliveryService/IDeliveryService";
 
 @Component
 export default class CartDelivery extends Vue {
   @Inject() _deliveryService!: IDeliveryService;
+  @Inject() _swalService!: ISwalService;
 
   public deliveryInfos = {
     userId: this.$store.getters.userId,
@@ -118,7 +120,11 @@ export default class CartDelivery extends Vue {
   async postDeliveryInformations() {
     this.$store.commit("addDeliveryLocal", this.deliveryInfos);
 
-    return await this._deliveryService.postDeliveryInfos(this.deliveryInfos);
+    return await this._deliveryService
+      .postDeliveryInfos(this.deliveryInfos)
+      .then(() =>
+        this._swalService.success("Save your informations", "Return")
+      );
   }
 }
 </script>

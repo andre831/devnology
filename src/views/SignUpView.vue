@@ -135,10 +135,12 @@ import { Component, Vue } from "vue-property-decorator";
 import { Inject } from "inversify-props";
 
 import IUserService from "../services/UserService/IUserService";
+import ISwalService from "../services/SwalService/ISwalService";
 
 @Component
 export default class SignUpView extends Vue {
   @Inject() _userService!: IUserService;
+  @Inject() _swalService!: ISwalService;
 
   public signUpInfos = {
     name: "",
@@ -151,7 +153,11 @@ export default class SignUpView extends Vue {
     const newUser = await this._userService
       .signUp(this.signUpInfos)
       .then((res) => this.$store.commit("setUser", res))
-      .then(() => this.$router.push("/"));
+      .then(() =>
+        this._swalService
+          .success("Created your account!", "Return")
+          .then(() => this.$router.push("/"))
+      );
 
     return newUser;
   }
